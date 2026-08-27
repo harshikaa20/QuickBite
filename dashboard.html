@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>QuickBite | Dashboard</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            background: #faf6ef;
+            color: #3f332b;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        nav {
+            height: 76px;
+            background: #fffdf9;
+            border-bottom: 1px solid #eadfd3;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 7%;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 29px;
+            font-weight: 750;
+            letter-spacing: 1px;
+            color: #60402f;
+        }
+
+        .logo span {
+            color: #c4935b;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #65564c;
+            font-size: 15px;
+            transition: 0.25s;
+        }
+
+        .nav-links a:hover {
+            color: #a66a3f;
+        }
+
+        .cart-btn {
+            background: #6b4632;
+            color: white !important;
+
+            padding: 10px 19px;
+            border-radius: 25px;
+        }
+
+        .cart-btn:hover {
+            background: #4e3022;
+        }
+
+
+        /* ================= HERO ================= */
+
+        .hero {
+            width: 86%;
+            margin: 45px auto 30px;
+
+            min-height: 330px;
+
+            border-radius: 30px;
+
+            background:
+                    linear-gradient(
+                            120deg,
+                            #ead8c3,
+                            #f5e9db 55%,
+                            #e6d0b6
+                    );
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 55px 65px;
+
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .hero-small {
+            text-transform: uppercase;
+            letter-spacing: 4px;
+
+            font-size: 13px;
+            color: #a56d43;
+
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            line-height: 1.12;
+
+            color: #4d382c;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 span {
+            color: #a96f43;
+        }
+
+        .hero p {
+            font-size: 16px;
+            line-height: 1.7;
+
+            color: #705f53;
+
+            max-width: 520px;
+            margin-bottom: 25px;
+        }
+
+        .explore-btn {
+            display: inline-block;
+
+            background: #6b4632;
+            color: white;
+
+            padding: 13px 24px;
+
+            border-radius: 26px;
+
+            font-weight: 600;
+
+            transition: 0.3s;
+        }
+
+        .explore-btn:hover {
+            background: #4f3022;
+            transform: translateY(-2px);
+        }
+
+        .hero-decoration {
+            font-size: 150px;
+            opacity: 0.85;
+            transform: rotate(-8deg);
+        }
+
+
+        /* ================= FEATURES ================= */
+
+        .features {
+            width: 86%;
+            margin: 25px auto 55px;
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 20px;
+        }
+
+        .feature {
+            background: #fffdf9;
+
+            border: 1px solid #eadfd3;
+            border-radius: 18px;
+
+            padding: 22px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 15px;
+
+            transition: 0.25s;
+        }
+
+        .feature:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                    0 8px 20px rgba(70, 45, 30, 0.07);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+
+            border-radius: 14px;
+
+            background: #f2e4d4;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 23px;
+        }
+
+        .feature h4 {
+            color: #513b2f;
+            margin-bottom: 4px;
+        }
+
+        .feature p {
+            color: #88796e;
+            font-size: 13px;
+        }
+
+
+        /* ================= CATEGORY ================= */
+
+        .category-section {
+            width: 86%;
+            margin: auto;
+
+            padding-bottom: 80px;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+
+            margin-bottom: 28px;
+        }
+
+        .heading-small {
+            color: #b17a4b;
+
+            text-transform: uppercase;
+            letter-spacing: 3px;
+
+            font-size: 12px;
+            font-weight: 600;
+
+            margin-bottom: 8px;
+        }
+
+        .section-heading h2 {
+            font-size: 34px;
+            color: #49372d;
+        }
+
+        .section-heading p {
+            color: #81746a;
+
+            font-size: 14px;
+            max-width: 330px;
+
+            text-align: right;
+            line-height: 1.5;
+        }
+
+
+        /* ================= CATEGORY GRID ================= */
+
+        .category-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 22px;
+        }
+
+
+        /* ================= CATEGORY CARD ================= */
+
+        .category-card {
+            display: block;
+
+            background: #fffdf9;
+
+            border: 1px solid #eadfd3;
+            border-radius: 22px;
+
+            padding: 27px 24px;
+
+            min-height: 190px;
+
+            position: relative;
+            overflow: hidden;
+
+            transition: 0.3s;
+
+            color: inherit;
+        }
+
+        .category-card::after {
+            content: "";
+
+            position: absolute;
+
+            width: 90px;
+            height: 90px;
+
+            background: #f3e5d5;
+
+            border-radius: 50%;
+
+            right: -35px;
+            bottom: -35px;
+
+            transition: 0.3s;
+        }
+
+        .category-card:hover {
+            transform: translateY(-7px);
+
+            border-color: #c4935b;
+
+            box-shadow:
+                    0 14px 30px rgba(70, 45, 30, 0.11);
+        }
+
+        .category-card:hover::after {
+            transform: scale(1.25);
+        }
+
+        .category-icon {
+            width: 58px;
+            height: 58px;
+
+            background: #f5e9dc;
+
+            border-radius: 17px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 30px;
+
+            margin-bottom: 18px;
+
+            position: relative;
+            z-index: 2;
+        }
+
+        .category-card h3 {
+            color: #4c392e;
+            font-size: 19px;
+
+            margin-bottom: 8px;
+
+            position: relative;
+            z-index: 2;
+        }
+
+        .category-card p {
+            color: #85766b;
+
+            font-size: 13px;
+            line-height: 1.5;
+
+            max-width: 210px;
+
+            position: relative;
+            z-index: 2;
+        }
+
+        .arrow {
+            position: absolute;
+
+            right: 22px;
+            top: 24px;
+
+            color: #b27a4d;
+
+            font-size: 20px;
+
+            z-index: 3;
+
+            transition: 0.25s;
+        }
+
+        .category-card:hover .arrow {
+            transform: translateX(5px);
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #46352b;
+
+            color: #eee5dc;
+
+            padding: 45px 7% 30px;
+        }
+
+        .footer-content {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 30px;
+        }
+
+        .footer-logo {
+            font-size: 25px;
+            font-weight: 700;
+        }
+
+        .footer-logo span {
+            color: #d0a16c;
+        }
+
+        .footer-text {
+            color: #c9bbb0;
+            font-size: 13px;
+        }
+
+        .copyright {
+            text-align: center;
+
+            border-top: 1px solid #66554a;
+
+            margin-top: 30px;
+            padding-top: 20px;
+
+            color: #b8a99e;
+            font-size: 12px;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1100px) {
+
+            .category-grid {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .hero-decoration {
+                font-size: 120px;
+            }
+        }
+
+        @media (max-width: 800px) {
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            .nav-links a:not(.cart-btn) {
+                display: none;
+            }
+
+            .hero {
+                padding: 40px;
+                min-height: 300px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero-decoration {
+                display: none;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .category-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .section-heading {
+                display: block;
+            }
+
+            .section-heading p {
+                text-align: left;
+                margin-top: 10px;
+            }
+        }
+
+        @media (max-width: 520px) {
+
+            .hero {
+                width: 92%;
+                padding: 35px 25px;
+            }
+
+            .category-section,
+            .features {
+                width: 92%;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 31px;
+            }
+
+            .section-heading h2 {
+                font-size: 28px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<nav>
+
+    <div class="logo">
+        Quick<span>Bite</span>
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/dashboard">
+            Home
+        </a>
+
+        <a href="/menu">
+            Menu
+        </a>
+
+        <a href="#">
+            My Orders
+        </a>
+
+        <!-- CART NOW CONNECTED -->
+
+        <a href="/cart"
+           class="cart-btn">
+
+            🛒 Cart
+
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="hero-small">
+            Welcome to QuickBite
+        </div>
+
+        <h1>
+            Good food.
+            <br>
+            <span>Good mood.</span>
+        </h1>
+
+        <p>
+            Discover delicious flavours from around the world.
+            From comforting classics to exciting new dishes,
+            your next favourite meal is just a bite away.
+        </p>
+
+        <a href="/menu"
+           class="explore-btn">
+
+            Explore Full Menu →
+
+        </a>
+
+    </div>
+
+    <div class="hero-decoration">
+        🍽️
+    </div>
+
+</section>
+
+
+<!-- ================= FEATURES ================= -->
+
+<section class="features">
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            🌎
+        </div>
+
+        <div>
+
+            <h4>
+                Global Flavours
+            </h4>
+
+            <p>
+                Taste dishes inspired by cuisines worldwide.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            ⚡
+        </div>
+
+        <div>
+
+            <h4>
+                Quick Delivery
+            </h4>
+
+            <p>
+                Delicious food delivered without the wait.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            ✨
+        </div>
+
+        <div>
+
+            <h4>
+                Fresh & Delicious
+            </h4>
+
+            <p>
+                Carefully selected meals for every craving.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CATEGORIES ================= -->
+
+<section class="category-section">
+
+    <div class="section-heading">
+
+        <div>
+
+            <div class="heading-small">
+                What are you craving?
+            </div>
+
+            <h2>
+                Explore Categories
+            </h2>
+
+        </div>
+
+        <p>
+            Pick a category and discover your
+            next delicious meal.
+        </p>
+
+    </div>
+
+
+    <div class="category-grid">
+
+
+        <a href="/menu/Starters%20%26%20Appetizers"
+           class="category-card">
+
+            <span class="arrow">→</span>
+
+            <div class="category-icon">🥟</div>
+
+            <h3>Starters & Appetizers</h3>
+
+            <p>
+                Delicious bites to begin your meal.
+            </p>
+
+        </a>
+
+
+        <a href="/menu/Main%20Course"
+           class="category-card">
+
+            <span class="arrow">→</span>
+
+            <div class="category-icon">🍛</div>
+
+            <h3>Main Course</h3>
+
+            <p>
+                Hearty meals from different cuisines.
+            </p>
+
+        </a>
+
+
+        <a href="/menu/Biryani%20%26%20Rice"
+           class="category-card">
+
+            <span class="arrow">→</span>
+
+            <div class="category-icon">🍚</div>
+
+            <h3>Biryani & Rice</h3>
+
+            <p>
+                Fragrant rice dishes and biryanis.
+            </p>
+
+        </a>
+
+
+        <a href="/menu/Pizza"
+           class="category-card">
+
+            <span class="arrow">→</span>
+
+            <div class="category-icon">🍕</div>
+
+            <h3>Pizza</h3>
+
+            <p>
+                Classic and international pizzas.
+            </p>
+
+        </a>
+
+
+        <a href="/menu/Burgers"
+           class="category-card">
+
+            <span class="arrow">→</span>
+
+            <div class="category-icon">🍔</div>
+
+            <h3>Burgers</h3>
+
+            <p>
+                Juicy burgers for every craving.
+            </p>
+
+        </a>
+
+
+        <a href="/menu/Asian"
+           class="category-card">
+
+            <span class="arrow">→</span>
+
+            <div class="category-icon">🍜</div>
+
+            <h3>Asian</h3>
+
+            <p>
+                Flavours from across Asia.
+            </p>
+
+        </a>
+
+
+        <a href="/menu/Coffee"
+           class="category-card">
+
+            <span class="arrow">→</span>
+
+            <div class="category-icon">☕</div>
+
+            <h3>Coffee</h3>
+
+            <p>
+                Coffee styles from around the world.
+            </p>
+
+        </a>
+
+
+        <a href="/menu/Tea"
+           class="category-card">
+
+            <span class="arrow">→</span>
+
+            <div class="category-icon">🫖</div>
+
+            <h3>Tea</h3>
+
+            <p>
+                Traditional and modern tea varieties.
+            </p>
+
+        </a>
+
+
+        <a href="/menu/Juices"
+           class="category-card">
+
+            <span class="arrow">→</span>
+
+            <div class="category-icon">🧃</div>
+
+            <h3>Juices</h3>
+
+            <p>
+                Fresh fruit juices and refreshing blends.
+            </p>
+
+        </a>
+
+
+        <a href="/menu/Shakes%20%26%20Smoothies"
+           class="category-card">
+
+            <span class="arrow">→</span>
+
+            <div class="category-icon">🥤</div>
+
+            <h3>Shakes & Smoothies</h3>
+
+            <p>
+                Creamy shakes and healthy smoothies.
+            </p>
+
+        </a>
+
+
+        <a href="/menu/Coolers"
+           class="category-card">
+
+            <span class="arrow">→</span>
+
+            <div class="category-icon">🍹</div>
+
+            <h3>Coolers</h3>
+
+            <p>
+                Refreshing chilled drinks.
+            </p>
+
+        </a>
+
+
+        <a href="/menu/Savouries"
+           class="category-card">
+
+            <span class="arrow">→</span>
+
+            <div class="category-icon">🧀</div>
+
+            <h3>Savouries</h3>
+
+            <p>
+                Tasty snacks and savoury treats.
+            </p>
+
+        </a>
+
+
+        <a href="/menu/Breads%20%26%20Sides"
+           class="category-card">
+
+            <span class="arrow">→</span>
+
+            <div class="category-icon">🥖</div>
+
+            <h3>Breads & Sides</h3>
+
+            <p>
+                Breads, rice and delicious sides.
+            </p>
+
+        </a>
+
+
+        <a href="/menu/Desserts"
+           class="category-card">
+
+            <span class="arrow">→</span>
+
+            <div class="category-icon">🍰</div>
+
+            <h3>Desserts</h3>
+
+            <p>
+                Sweet treats from around the world.
+            </p>
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-content">
+
+        <div>
+
+            <div class="footer-logo">
+                Quick<span>Bite</span>
+            </div>
+
+            <div class="footer-text">
+                Good food. Good mood.
+            </div>
+
+        </div>
+
+        <div class="footer-text">
+            Discover • Order • Enjoy
+        </div>
+
+    </div>
+
+    <div class="copyright">
+
+        © 2026 QuickBite.
+        Made with care for food lovers.
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

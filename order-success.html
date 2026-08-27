@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>QuickBite | Order Placed</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+
+            font-family:
+                    Georgia,
+                    "Times New Roman",
+                    serif;
+
+            background:
+                    radial-gradient(
+                            circle at top left,
+                            #ffffff 0%,
+                            #f5f0e7 45%,
+                            #e8dfd1 100%
+                    );
+
+            color: #29261f;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 30px;
+        }
+
+
+        /* =====================================================
+           MAIN CARD
+        ===================================================== */
+
+        .success-container {
+            width: 100%;
+            max-width: 650px;
+        }
+
+
+        .success-card {
+
+            background: rgba(255, 253, 248, 0.97);
+
+            border: 1px solid #e3d8c8;
+
+            border-radius: 30px;
+
+            padding: 55px 45px;
+
+            text-align: center;
+
+            box-shadow:
+                    0 25px 70px
+                    rgba(54, 46, 35, 0.16);
+
+            animation: appear 0.7s ease;
+        }
+
+
+        @keyframes appear {
+
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* =====================================================
+           SUCCESS ICON
+        ===================================================== */
+
+        .success-icon {
+
+            width: 100px;
+            height: 100px;
+
+            margin: 0 auto 25px;
+
+            border-radius: 50%;
+
+            background: #405544;
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 45px;
+
+            box-shadow:
+                    0 12px 30px
+                    rgba(64, 85, 68, 0.25);
+
+            animation: pop 0.6s ease;
+        }
+
+
+        @keyframes pop {
+
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            70% {
+                transform: scale(1.08);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+
+        /* =====================================================
+           BRAND
+        ===================================================== */
+
+        .brand {
+
+            font-size: 38px;
+
+            font-weight: bold;
+
+            color: #405544;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .tagline {
+
+            color: #918777;
+
+            font-size: 14px;
+
+            letter-spacing: 1.5px;
+
+            margin-bottom: 35px;
+        }
+
+
+        /* =====================================================
+           TITLE
+        ===================================================== */
+
+        h1 {
+
+            font-size: 32px;
+
+            color: #302c25;
+
+            margin-bottom: 12px;
+        }
+
+
+        .message {
+
+            color: #756c60;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 15px;
+
+            line-height: 1.7;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* =====================================================
+           ORDER ID
+        ===================================================== */
+
+        .order-box {
+
+            background: #f2eee6;
+
+            border: 1px solid #e3dacc;
+
+            border-radius: 16px;
+
+            padding: 16px;
+
+            margin: 25px 0 35px;
+        }
+
+
+        .order-label {
+
+            display: block;
+
+            color: #8d8274;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 12px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 7px;
+        }
+
+
+        .order-id {
+
+            color: #405544;
+
+            font-family: Arial, sans-serif;
+
+            font-weight: bold;
+
+            font-size: 18px;
+        }
+
+
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+
+        .buttons {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 14px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            text-decoration: none;
+
+            padding: 14px 25px;
+
+            border-radius: 30px;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: all 0.25s ease;
+        }
+
+
+        /* BILL BUTTON */
+
+        .button-primary {
+
+            background: #405544;
+
+            color: white;
+
+            box-shadow:
+                    0 8px 20px
+                    rgba(64, 85, 68, 0.20);
+        }
+
+
+        .button-primary:hover {
+
+            background: #304232;
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                    0 12px 25px
+                    rgba(64, 85, 68, 0.28);
+        }
+
+
+        /* ORDER MORE */
+
+        .button-secondary {
+
+            background: #eee8dd;
+
+            color: #405544;
+
+            border: 1px solid #ddd3c4;
+        }
+
+
+        .button-secondary:hover {
+
+            background: #e2d9ca;
+
+            transform: translateY(-3px);
+        }
+
+
+        /* HOME */
+
+        .button-home {
+
+            background: transparent;
+
+            color: #756c60;
+
+            border: 1px solid #d7cdbd;
+        }
+
+
+        .button-home:hover {
+
+            background: #f2eee7;
+
+            color: #405544;
+
+            transform: translateY(-3px);
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .footer {
+
+            margin-top: 35px;
+
+            color: #a09587;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 13px;
+        }
+
+
+        .heart {
+
+            color: #8c6d5a;
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .success-card {
+
+                padding: 40px 22px;
+
+                border-radius: 24px;
+            }
+
+            .success-icon {
+
+                width: 82px;
+                height: 82px;
+
+                font-size: 36px;
+            }
+
+            .brand {
+                font-size: 31px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .button {
+                width: 100%;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="success-container">
+
+
+    <div class="success-card">
+
+
+        <!-- SUCCESS ICON -->
+
+        <div class="success-icon">
+
+            ✓
+
+        </div>
+
+
+        <!-- BRAND -->
+
+        <div class="brand">
+
+            QuickBite
+
+        </div>
+
+
+        <div class="tagline">
+
+            TASTEFULLY DELIVERED
+
+        </div>
+
+
+        <!-- TITLE -->
+
+        <h1>
+
+            Your Order Has Been Placed!
+
+        </h1>
+
+
+        <p class="message">
+
+            Thank you for choosing QuickBite.
+            Your delicious order has been confirmed
+            and is being prepared with care.
+
+        </p>
+
+
+        <!-- ORDER ID -->
+
+        <div class="order-box">
+
+            <span class="order-label">
+
+                Order Number
+
+            </span>
+
+
+            <span class="order-id"
+                  th:text="${orderId}">
+
+                #QB2026
+
+            </span>
+
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div class="buttons">
+
+
+            <!-- ⭐ NEW BILL BUTTON -->
+
+            <a th:href="@{/order/bill}"
+               class="button button-primary">
+
+                🧾 View Order Bill
+
+            </a>
+
+
+            <!-- ORDER MORE -->
+
+            <a th:href="@{/menu}"
+               class="button button-secondary">
+
+                🍽️ Order More
+
+            </a>
+
+
+            <!-- DASHBOARD -->
+
+            <a th:href="@{/dashboard}"
+               class="button button-home">
+
+                🏠 Back to Dashboard
+
+            </a>
+
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        <div class="footer">
+
+            Thank you for ordering from QuickBite
+            <span class="heart">♥</span>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>

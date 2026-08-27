@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title th:text="${categoryName} + ' | QuickBite'">
+        QuickBite Menu
+    </title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            background: #faf6ef;
+            color: #3b3028;
+        }
+
+
+        /* ================= NAVBAR ================= */
+
+        nav {
+            height: 75px;
+
+            background: #fffdf9;
+
+            border-bottom: 1px solid #eadfd1;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 7%;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+
+            color: #6b4632;
+
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #c4935b;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #594a40;
+
+            font-size: 15px;
+
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #a66a3f;
+        }
+
+        /* CART CONNECTED */
+
+        .cart {
+            background: #6b4632;
+
+            color: white !important;
+
+            padding: 10px 18px;
+
+            border-radius: 25px;
+        }
+
+        .cart:hover {
+            background: #4f3022;
+        }
+
+
+        /* ================= HEADER ================= */
+
+        .menu-header {
+            text-align: center;
+
+            padding: 55px 20px 35px;
+        }
+
+        .small-title {
+            color: #b37a48;
+
+            font-size: 14px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 3px;
+
+            margin-bottom: 10px;
+        }
+
+        .menu-header h1 {
+            font-size: 42px;
+
+            color: #49372d;
+
+            margin-bottom: 12px;
+        }
+
+        .menu-header p {
+            color: #81746a;
+
+            font-size: 16px;
+        }
+
+
+        /* ================= SEARCH ================= */
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+
+            margin-bottom: 35px;
+        }
+
+        .search-box {
+            width: 500px;
+
+            background: white;
+
+            border: 1px solid #e5d7c8;
+
+            border-radius: 30px;
+
+            display: flex;
+
+            overflow: hidden;
+
+            box-shadow:
+                    0 5px 20px rgba(80, 55, 40, 0.06);
+        }
+
+        .search-box input {
+            flex: 1;
+
+            border: none;
+
+            outline: none;
+
+            padding: 15px 20px;
+
+            font-size: 15px;
+
+            color: #4d4038;
+        }
+
+        .search-box button {
+            border: none;
+
+            background: #6b4632;
+
+            color: white;
+
+            padding: 0 25px;
+
+            cursor: pointer;
+
+            font-size: 15px;
+        }
+
+        .search-box button:hover {
+            background: #513326;
+        }
+
+
+        /* ================= FOOD GRID ================= */
+
+        .food-container {
+            width: 86%;
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(260px, 1fr));
+
+            gap: 28px;
+
+            padding-bottom: 70px;
+        }
+
+
+        /* ================= FOOD CARD ================= */
+
+        .food-card {
+            background: #ffffff;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            border: 1px solid #eadfd3;
+
+            box-shadow:
+                    0 8px 25px rgba(70, 45, 30, 0.07);
+
+            transition: 0.35s;
+        }
+
+        .food-card:hover {
+            transform: translateY(-7px);
+
+            box-shadow:
+                    0 15px 35px rgba(70, 45, 30, 0.13);
+        }
+
+
+        /* ================= IMAGE ================= */
+
+        .food-image {
+            height: 210px;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #ead7c4,
+                            #f5e9db
+                    );
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            position: relative;
+        }
+
+        .food-image img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+        .food-placeholder {
+            font-size: 65px;
+        }
+
+
+        /* ================= BADGES ================= */
+
+        .veg-badge {
+            position: absolute;
+
+            top: 14px;
+            left: 14px;
+
+            background: #f8fff5;
+
+            color: #47713c;
+
+            border: 1px solid #8eb77e;
+
+            padding: 5px 10px;
+
+            border-radius: 15px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+        .nonveg-badge {
+            position: absolute;
+
+            top: 14px;
+            left: 14px;
+
+            background: #fff7f5;
+
+            color: #a84b3c;
+
+            border: 1px solid #d99589;
+
+            padding: 5px 10px;
+
+            border-radius: 15px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+
+        /* ================= CARD CONTENT ================= */
+
+        .food-content {
+            padding: 20px;
+        }
+
+        .food-top {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-start;
+
+            gap: 10px;
+        }
+
+        .food-name {
+            font-size: 20px;
+
+            color: #46362d;
+
+            font-weight: 650;
+        }
+
+        .rating {
+            background: #fff4dc;
+
+            color: #9a672e;
+
+            padding: 5px 8px;
+
+            border-radius: 8px;
+
+            font-size: 12px;
+
+            white-space: nowrap;
+        }
+
+        .description {
+            color: #82756c;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+
+            margin-top: 10px;
+
+            min-height: 45px;
+        }
+
+        .country {
+            margin-top: 12px;
+
+            color: #a06f4b;
+
+            font-size: 13px;
+        }
+
+
+        /* ================= PRICE ================= */
+
+        .food-bottom {
+            margin-top: 18px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+        }
+
+        .price {
+            font-size: 21px;
+
+            font-weight: 700;
+
+            color: #60402f;
+        }
+
+
+        /* ================= ADD BUTTON ================= */
+
+        .add-button {
+            display: inline-block;
+
+            background: #6b4632;
+
+            color: white;
+
+            padding: 10px 18px;
+
+            border-radius: 20px;
+
+            cursor: pointer;
+
+            font-weight: 600;
+
+            text-decoration: none;
+
+            transition: 0.25s;
+        }
+
+        .add-button:hover {
+            background: #4f3022;
+
+            transform: scale(1.04);
+        }
+
+
+        /* ================= EMPTY ================= */
+
+        .empty {
+            text-align: center;
+
+            padding: 70px 20px;
+
+            color: #84766b;
+        }
+
+        .empty-icon {
+            font-size: 60px;
+
+            margin-bottom: 15px;
+        }
+
+        .empty h2 {
+            color: #59463a;
+
+            margin-bottom: 8px;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 700px) {
+
+            nav {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            .nav-links a:not(.cart) {
+                display: none;
+            }
+
+            .menu-header h1 {
+                font-size: 32px;
+            }
+
+            .search-box {
+                width: 90%;
+            }
+
+            .food-container {
+                width: 92%;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<nav>
+
+    <div class="logo">
+        Quick<span>Bite</span>
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="/dashboard">
+            Home
+        </a>
+
+        <a href="/menu">
+            Menu
+        </a>
+
+        <a href="#">
+            Orders
+        </a>
+
+        <!-- IMPORTANT: CART LINK -->
+
+        <a href="/cart"
+           class="cart">
+
+            🛒 Cart
+
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= HEADER ================= -->
+
+<section class="menu-header">
+
+    <div class="small-title">
+        Explore Our Menu
+    </div>
+
+    <h1 th:text="${categoryName}">
+        All Food
+    </h1>
+
+    <p>
+        Discover flavours from around the world,
+        delivered to your doorstep.
+    </p>
+
+</section>
+
+
+<!-- ================= SEARCH ================= -->
+
+<div class="search-container">
+
+    <form
+            class="search-box"
+            action="/menu/search"
+            method="get">
+
+        <input
+                type="text"
+                name="query"
+                placeholder="Search for pizza, coffee, biryani..."
+                required>
+
+        <button type="submit">
+            Search
+        </button>
+
+    </form>
+
+</div>
+
+
+<!-- ================= FOOD GRID ================= -->
+
+<div
+        class="food-container"
+        th:if="${foodItems != null && !foodItems.isEmpty()}">
+
+
+    <!-- FOOD CARD -->
+
+    <div
+            class="food-card"
+            th:each="food : ${foodItems}">
+
+
+        <!-- IMAGE -->
+
+        <div class="food-image">
+
+
+            <img
+                    th:if="${food.image != null && !food.image.isEmpty()}"
+                    th:src="@{'/images/food/' + ${food.image}}"
+                    th:alt="${food.name}">
+
+
+            <div
+                    class="food-placeholder"
+                    th:if="${food.image == null || food.image.isEmpty()}">
+
+                🍽️
+
+            </div>
+
+
+            <!-- VEG -->
+
+            <div
+                    class="veg-badge"
+                    th:if="${food.vegetarian}">
+
+                ● VEG
+
+            </div>
+
+
+            <!-- NON VEG -->
+
+            <div
+                    class="nonveg-badge"
+                    th:unless="${food.vegetarian}">
+
+                ● NON-VEG
+
+            </div>
+
+        </div>
+
+
+        <!-- CONTENT -->
+
+        <div class="food-content">
+
+
+            <div class="food-top">
+
+                <div
+                        class="food-name"
+                        th:text="${food.name}">
+
+                    Food Name
+
+                </div>
+
+
+                <div class="rating">
+
+                    ⭐
+
+                    <span th:text="${food.rating}">
+                        4.8
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div
+                    class="description"
+                    th:text="${food.description}">
+
+                Delicious food item.
+
+            </div>
+
+
+            <div class="country">
+
+                🌎
+
+                <span th:text="${food.country}">
+                    Country
+                </span>
+
+            </div>
+
+
+            <!-- PRICE + ADD -->
+
+            <div class="food-bottom">
+
+
+                <div class="price">
+
+                    ₹<span th:text="${food.price}">
+                        0
+                    </span>
+
+                </div>
+
+
+                <!-- REAL CART BUTTON -->
+
+                <a
+                        class="add-button"
+                        th:href="@{'/cart/add/' + ${food.id}}">
+
+                    + Add
+
+                </a>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= EMPTY ================= -->
+
+<div
+        class="empty"
+        th:if="${foodItems == null || foodItems.isEmpty()}">
+
+    <div class="empty-icon">
+        🍽️
+    </div>
+
+    <h2>
+        No food found
+    </h2>
+
+    <p>
+        We couldn't find anything matching your search.
+    </p>
+
+</div>
+
+
+</body>
+
+</html>

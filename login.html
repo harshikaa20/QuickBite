@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>QuickBite | Welcome Back</title>
+
+    <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #F8F3EA;
+            color: #292522;
+            font-family: 'Inter', sans-serif;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 30px;
+        }
+
+        /* MAIN */
+
+        .page {
+            width: 1100px;
+            min-height: 650px;
+
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+
+            background: #F8F3EA;
+
+            border-radius: 28px;
+
+            overflow: hidden;
+
+            box-shadow:
+                    0 25px 70px rgba(59, 41, 35, 0.15);
+        }
+
+
+        /* LEFT SIDE */
+
+        .visual-section {
+            background: #3B2923;
+
+            position: relative;
+
+            padding: 55px;
+
+            color: #F8F3EA;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            overflow: hidden;
+        }
+
+        /* Decorative circles */
+
+        .circle-one {
+            position: absolute;
+
+            width: 350px;
+            height: 350px;
+
+            border-radius: 50%;
+
+            background: #B9825B;
+
+            opacity: 0.16;
+
+            top: -140px;
+            left: -100px;
+        }
+
+        .circle-two {
+            position: absolute;
+
+            width: 280px;
+            height: 280px;
+
+            border-radius: 50%;
+
+            border: 1px solid #D8B98A;
+
+            opacity: 0.25;
+
+            bottom: -100px;
+            right: -80px;
+        }
+
+
+        /* BRAND */
+
+        .brand {
+            position: relative;
+            z-index: 2;
+
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-symbol {
+            width: 43px;
+            height: 43px;
+
+            border: 1px solid #D8B98A;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #D8B98A;
+
+            font-size: 19px;
+        }
+
+        .brand-name {
+            font-size: 22px;
+
+            letter-spacing: 3px;
+
+            font-weight: 600;
+        }
+
+
+        /* HERO */
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+
+            max-width: 450px;
+        }
+
+        .small-title {
+            color: #D8B98A;
+
+            font-size: 12px;
+
+            letter-spacing: 4px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 20px;
+        }
+
+        .hero-content h1 {
+            font-family: 'DM Serif Display', serif;
+
+            font-size: 64px;
+
+            line-height: 1.05;
+
+            font-weight: 400;
+
+            margin-bottom: 25px;
+        }
+
+        .hero-content h1 span {
+            color: #D8B98A;
+        }
+
+        .hero-content p {
+            color: #E8DDD1;
+
+            font-size: 15px;
+
+            line-height: 1.8;
+
+            max-width: 390px;
+        }
+
+
+        /* QUOTE */
+
+        .quote {
+            position: relative;
+            z-index: 2;
+
+            border-left: 2px solid #B9825B;
+
+            padding-left: 18px;
+
+            color: #D8C9BC;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+
+        /* RIGHT SIDE */
+
+        .login-section {
+            background: #FFFDF9;
+
+            padding: 70px 65px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .welcome-label {
+            color: #73775B;
+
+            font-size: 12px;
+
+            letter-spacing: 3px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 13px;
+        }
+
+        .login-section h2 {
+            font-family: 'DM Serif Display', serif;
+
+            font-size: 42px;
+
+            font-weight: 400;
+
+            color: #3B2923;
+
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #77706A;
+
+            font-size: 14px;
+
+            margin-bottom: 35px;
+        }
+
+
+        /* MESSAGE */
+
+        .error,
+        .success {
+            padding: 12px 15px;
+
+            border-radius: 9px;
+
+            margin-bottom: 20px;
+
+            font-size: 13px;
+        }
+
+        .error {
+            background: #F6E4E0;
+
+            color: #8D4337;
+        }
+
+        .success {
+            background: #E8EBDD;
+
+            color: #586040;
+        }
+
+
+        /* INPUT */
+
+        .input-group {
+            margin-bottom: 22px;
+        }
+
+        .input-group label {
+            display: block;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            color: #514943;
+
+            margin-bottom: 8px;
+
+            letter-spacing: 0.5px;
+        }
+
+        .input-group input {
+            width: 100%;
+
+            height: 50px;
+
+            padding: 0 15px;
+
+            border: 1px solid #DED6CC;
+
+            border-radius: 9px;
+
+            background: #FDFBF7;
+
+            color: #292522;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition: 0.25s;
+        }
+
+        .input-group input:focus {
+            border-color: #B9825B;
+
+            box-shadow: 0 0 0 3px rgba(185, 130, 91, 0.10);
+        }
+
+
+        /* LOGIN BUTTON */
+
+        .login-button {
+            width: 100%;
+
+            height: 52px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: #3B2923;
+
+            color: #FFFDF9;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            letter-spacing: 1.5px;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        .login-button:hover {
+            background: #B9825B;
+
+            transform: translateY(-1px);
+
+            box-shadow: 0 8px 20px rgba(185, 130, 91, 0.25);
+        }
+
+
+        /* REGISTER */
+
+        .register-text {
+            text-align: center;
+
+            margin-top: 25px;
+
+            font-size: 13px;
+
+            color: #817A74;
+        }
+
+        .register-text a {
+            color: #73775B;
+
+            font-weight: 600;
+
+            text-decoration: none;
+
+            margin-left: 4px;
+        }
+
+        .register-text a:hover {
+            color: #B9825B;
+        }
+
+
+        /* SMALL DECORATION */
+
+        .bottom-line {
+            width: 45px;
+
+            height: 2px;
+
+            background: #B9825B;
+
+            margin-top: 30px;
+        }
+
+
+        /* RESPONSIVE */
+
+        @media (max-width: 850px) {
+
+            .page {
+                grid-template-columns: 1fr;
+
+                width: 100%;
+
+                max-width: 550px;
+            }
+
+            .visual-section {
+                min-height: 380px;
+
+                padding: 40px;
+            }
+
+            .hero-content h1 {
+                font-size: 48px;
+            }
+
+            .login-section {
+                padding: 50px 40px;
+            }
+        }
+
+
+        @media (max-width: 500px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .visual-section {
+                padding: 30px;
+            }
+
+            .login-section {
+                padding: 40px 25px;
+            }
+
+            .hero-content h1 {
+                font-size: 40px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="page">
+
+    <!-- ================= LEFT SIDE ================= -->
+
+    <section class="visual-section">
+
+        <div class="circle-one"></div>
+        <div class="circle-two"></div>
+
+
+        <!-- BRAND -->
+
+        <div class="brand">
+
+            <div class="brand-symbol">
+                ✦
+            </div>
+
+            <div class="brand-name">
+                QUICKBITE
+            </div>
+
+        </div>
+
+
+        <!-- HERO -->
+
+        <div class="hero-content">
+
+            <div class="small-title">
+                Food · Comfort · Moments
+            </div>
+
+            <h1>
+                Good food,
+                <br>
+                <span>simply.</span>
+            </h1>
+
+            <p>
+                Discover meals you'll love, order with ease,
+                and make every bite a little more special.
+            </p>
+
+            <div class="bottom-line"></div>
+
+        </div>
+
+
+        <!-- QUOTE -->
+
+        <div class="quote">
+
+            “A little comfort,
+            <br>
+            one bite at a time.”
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= LOGIN SIDE ================= -->
+
+    <section class="login-section">
+
+        <div class="welcome-label">
+            Welcome back
+        </div>
+
+        <h2>
+            Sign in
+        </h2>
+
+        <p class="subtitle">
+            Your next favourite meal is waiting.
+        </p>
+
+
+        <!-- ERROR -->
+
+        <div
+                class="error"
+                th:if="${error}"
+                th:text="${error}">
+        </div>
+
+
+        <!-- SUCCESS -->
+
+        <div
+                class="success"
+                th:if="${success}"
+                th:text="${success}">
+        </div>
+
+
+        <!-- LOGIN FORM -->
+
+        <form action="/login" method="post">
+
+            <div class="input-group">
+
+                <label for="email">
+                    EMAIL ADDRESS
+                </label>
+
+                <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="you@example.com"
+                        required>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="password">
+                    PASSWORD
+                </label>
+
+                <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        required>
+
+            </div>
+
+
+            <button
+                    type="submit"
+                    class="login-button">
+
+                SIGN IN
+
+            </button>
+
+        </form>
+
+
+        <div class="register-text">
+
+            New to QuickBite?
+
+            <a href="/register">
+                Create an account
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
+
+</body>
+
+</html>

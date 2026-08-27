@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>QuickBite | Order Bill</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Georgia, "Times New Roman", serif;
+            background: #f7f3eb;
+            color: #29251f;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .bill-container {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .bill-card {
+            background: #fffdf8;
+            border-radius: 24px;
+            padding: 45px;
+            box-shadow: 0 15px 45px rgba(55, 45, 30, 0.12);
+            border: 1px solid #e6ddce;
+        }
+
+        .header {
+            text-align: center;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #ded4c4;
+        }
+
+        .logo {
+            font-size: 38px;
+            font-weight: bold;
+            color: #405544;
+            letter-spacing: 1px;
+        }
+
+        .tagline {
+            margin-top: 8px;
+            color: #8a806f;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .receipt-title {
+            margin-top: 28px;
+            font-size: 25px;
+            color: #302b24;
+        }
+
+        .order-info {
+            display: flex;
+            justify-content: space-between;
+            margin: 25px 0;
+            color: #6f675b;
+            font-size: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            text-align: left;
+            padding: 15px 10px;
+            color: #405544;
+            border-bottom: 2px solid #405544;
+        }
+
+        td {
+            padding: 17px 10px;
+            border-bottom: 1px solid #ebe4d9;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        .summary {
+            margin-top: 30px;
+            margin-left: auto;
+            max-width: 350px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            color: #665e53;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 18px 0;
+            margin-top: 10px;
+            border-top: 2px solid #405544;
+            font-size: 22px;
+            font-weight: bold;
+            color: #405544;
+        }
+
+        .success-message {
+            text-align: center;
+            margin-top: 35px;
+            padding: 18px;
+            border-radius: 15px;
+            background: #eef3ed;
+            color: #405544;
+            font-weight: bold;
+            letter-spacing: .5px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 35px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            text-decoration: none;
+            padding: 13px 25px;
+            border-radius: 30px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            transition: .25s;
+        }
+
+        .primary {
+            background: #405544;
+            color: white;
+        }
+
+        .primary:hover {
+            background: #304232;
+            transform: translateY(-2px);
+        }
+
+        .secondary {
+            background: #eee8dd;
+            color: #405544;
+        }
+
+        .secondary:hover {
+            background: #e1d9ca;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #938a7d;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .bill-card {
+                padding: 25px 18px;
+            }
+
+            .order-info {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            th,
+            td {
+                padding: 12px 5px;
+                font-size: 13px;
+            }
+
+            .logo {
+                font-size: 30px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="bill-container">
+
+    <div class="bill-card">
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+            <div class="logo">
+                QuickBite
+            </div>
+
+            <div class="tagline">
+                Tastefully Delivered
+            </div>
+
+            <div class="receipt-title">
+                Order Bill
+            </div>
+
+        </div>
+
+
+        <!-- ORDER INFO -->
+
+        <div class="order-info">
+
+            <div>
+                <strong>Order ID:</strong>
+                #QB2026
+            </div>
+
+            <div>
+                <strong>Date:</strong>
+                <span th:text="${#dates.format(#dates.createNow(), 'dd MMM yyyy')}">
+                    16 Aug 2026
+                </span>
+            </div>
+
+        </div>
+
+
+        <!-- ITEMS -->
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>Item</th>
+
+                <th>Quantity</th>
+
+                <th class="right">
+                    Price
+                </th>
+
+                <th class="right">
+                    Total
+                </th>
+
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            <tr th:each="item : ${cartItems}">
+
+                <td th:text="${item.foodName}">
+                    Pizza
+                </td>
+
+                <td th:text="${item.quantity}">
+                    1
+                </td>
+
+                <td class="right">
+                    ₹<span th:text="${#numbers.formatDecimal(item.price, 1, 2)}">
+                        249.00
+                    </span>
+                </td>
+
+                <td class="right">
+                    ₹<span th:text="${#numbers.formatDecimal(item.total, 1, 2)}">
+                        249.00
+                    </span>
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+
+        <!-- BILL SUMMARY -->
+
+        <div class="summary">
+
+            <div class="summary-row">
+
+                <span>
+                    Subtotal
+                </span>
+
+                <strong>
+                    ₹<span th:text="${#numbers.formatDecimal(subtotal, 1, 2)}">
+                        0.00
+                    </span>
+                </strong>
+
+            </div>
+
+
+            <div class="summary-row">
+
+                <span>
+                    GST (5%)
+                </span>
+
+                <strong>
+                    ₹<span th:text="${#numbers.formatDecimal(gst, 1, 2)}">
+                        0.00
+                    </span>
+                </strong>
+
+            </div>
+
+
+            <div class="total-row">
+
+                <span>
+                    Total
+                </span>
+
+                <span>
+                    ₹<span th:text="${#numbers.formatDecimal(grandTotal, 1, 2)}">
+                        0.00
+                    </span>
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- SUCCESS -->
+
+        <div class="success-message">
+
+            ✓ Your order has been placed successfully!
+
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div class="buttons">
+
+            <a th:href="@{/dashboard}"
+               class="button primary">
+
+                🏠 Back to Dashboard
+
+            </a>
+
+            <a th:href="@{/menu}"
+               class="button secondary">
+
+                🍽️ Order More
+
+            </a>
+
+        </div>
+
+
+        <div class="footer">
+
+            Thank you for choosing QuickBite ❤️
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
